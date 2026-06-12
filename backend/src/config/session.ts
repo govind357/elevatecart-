@@ -1,12 +1,12 @@
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
-const SESSION_SECRET = process.env.SESSION_SECRET;
-if (!SESSION_SECRET) {
-  throw new Error('SESSION_SECRET is not defined');
-}
-
 const createSessionMiddleware = (): import('express').RequestHandler => {
+  const SESSION_SECRET = process.env.SESSION_SECRET;
+  if (!SESSION_SECRET) {
+    throw new Error('SESSION_SECRET is not defined');
+  }
+
   const store = MongoStore.create({
     mongoUrl: process.env.MONGODB_URI ?? 'mongodb://127.0.0.1:27017/ecommerce-backend',
     collectionName: 'sessions',

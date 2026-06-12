@@ -435,6 +435,7 @@ async function handleCreateCategory(event: FormEvent<HTMLFormElement>) {
     setPage('home');
     setSelectedProduct(null);
     setMessage('');
+    setError('');
   };
 
   const handleToggleTheme = () => {
@@ -444,6 +445,7 @@ async function handleCreateCategory(event: FormEvent<HTMLFormElement>) {
   const handleGoCart = async () => {
     setPage('cart');
     setMessage('');
+    setError('');
     if (user) {
       await loadCart();
     }
@@ -466,6 +468,7 @@ async function handleCreateCategory(event: FormEvent<HTMLFormElement>) {
 
     setPage('admin');
     setMessage('');
+    setError('');
     await loadAdminDashboard();
   };
 
@@ -640,6 +643,7 @@ async function handleLogoutClick() {
     setCart(null);    setAdminSummary(null);
     setAdminUsers([]);    setPage('home');
     setMessage('You have been logged out.');
+    setError('');
   }
 
   async function handleAddProductToCart() {
@@ -784,8 +788,8 @@ async function handleLogoutClick() {
   );
 
   return (
-    <div className={`${theme} min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100`}>
-      <div className="mx-auto max-w-6xl px-4 py-6">
+    <div className="dark min-h-screen bg-[#090d16] text-slate-100 transition-colors duration-300">
+      <div className="w-full px-4 md:px-8 py-6">
         <Header
           user={user}
           cartItemCount={cartItemCount}
@@ -801,44 +805,42 @@ async function handleLogoutClick() {
         <div className="grid gap-6">
           <StatusBanner loading={loading} error={error} message={message} />
 
-             {page === 'auth' ? (
-  showOtpForm ? (
-    <section className="rounded-3xl bg-white p-6 shadow-xl dark:bg-slate-900">
-      <form
-        onSubmit={handleVerifyOtp}
-        className="grid gap-4"
-      >
-        <h2 className="text-2xl font-semibold">
-          Verify Email
-        </h2>
-
-        <p>
-          Enter the OTP sent to:
-          <br />
-          <strong>
-            {verificationEmail}
-          </strong>
-        </p>
-
-        <input
-          type="text"
-          value={otp}
-          onChange={(e) =>
-            setOtp(e.target.value)
-          }
-          placeholder="Enter OTP"
-          className="rounded-xl border p-3"
-          required
-        />
-
-        <button
-          type="submit"
-          className="rounded-xl bg-slate-900 p-3 text-white"
-        >
-          Verify OTP
-        </button>
-      </form>
-    </section>
+             {page === 'auth' ? (   showOtpForm ? (
+     <section className="mx-auto w-full max-w-md rounded-3xl border border-slate-800/80 bg-slate-900/50 p-6 shadow-xl backdrop-blur-md animate-fade-in">
+       <form
+         onSubmit={handleVerifyOtp}
+         className="grid gap-4"
+       >
+         <div className="text-center">
+           <h2 className="text-2xl font-bold tracking-tight text-slate-100">
+             Verify Email
+           </h2>
+           <p className="mt-2 text-sm text-slate-400">
+             Enter the OTP sent to:
+             <br />
+             <strong className="text-indigo-400 font-semibold">{verificationEmail}</strong>
+           </p>
+         </div>
+ 
+         <input
+           type="text"
+           value={otp}
+           onChange={(e) =>
+             setOtp(e.target.value)
+           }
+           placeholder="Enter OTP code"
+           className="mt-2 rounded-2xl border border-slate-700/80 bg-slate-800/40 px-4 py-3 text-center text-sm text-slate-100 outline-none transition placeholder:text-slate-500 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-950/50"
+           required
+         />
+ 
+         <button
+           type="submit"
+           className="mt-2 inline-flex items-center justify-center rounded-2xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white transition hover:bg-indigo-500 shadow-md shadow-indigo-100 dark:shadow-none"
+         >
+           Verify OTP
+         </button>
+       </form>
+     </section>
   ) : (
     <AuthPanel
       mode={authMode}

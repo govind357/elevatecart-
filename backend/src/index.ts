@@ -17,10 +17,11 @@ import cartRoutes from './routes/cartRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import errorHandler from './middleware/errorMiddleware.js';
+import { seedDatabase } from './config/seeder.js';
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT 
+const PORT = process.env.PORT || 3000;
 app.use(
   helmet({
     crossOriginResourcePolicy: {
@@ -29,6 +30,7 @@ app.use(
   })
 );
 await connectDatabase();
+await seedDatabase();
 
 const allowedOrigins = [
   'http://localhost:5173',
